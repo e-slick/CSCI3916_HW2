@@ -29,11 +29,81 @@ function getJSONObject(req) {
         json.headers = req.headers;
     }
 
-    return json;
+    return json;    
 }
+
+router.route('').all(function(req,res){
+    res.status(405).send({status: 405, msg: 'Method not supported for default URL.'});
+});
 
 router.route('/post')
     .post(authController.isAuthenticated, function (req, res) {
+            console.log(req.body);
+            res = res.status(200);
+            if (req.get('Content-Type')) {
+                console.log("Content-Type: " + req.get('Content-Type'));
+                res = res.type(req.get('Content-Type'));
+            }
+            var o = getJSONObject(req);
+            res.json(o);
+        }
+    );
+
+
+router.route('/delete')
+    .post(authController.isAuthenticated, function (req, res) {
+            console.log(req.body);
+            res = res.status(200);
+            if (req.get('Content-Type')) {
+                console.log("Content-Type: " + req.get('Content-Type'));
+                res = res.type(req.get('Content-Type'));
+            }
+            var o = getJSONObject(req);
+            res.json(o);
+        }
+    );
+
+router.route('/post')
+    .post(authController.isAuthenticated, function (req, res) {
+            console.log(req.body);
+            res = res.status(200);
+            if (req.get('Content-Type')) {
+                console.log("Content-Type: " + req.get('Content-Type'));
+                res = res.type(req.get('Content-Type'));
+            }
+            var o = getJSONObject(req);
+            res.json(o);
+        }
+    );
+
+router.route('/get')
+    .get(authController.isAuthenticated, function (req, res) {
+            console.log(req.body);
+            res = res.status(200);
+            if (req.get('Content-Type')) {
+                console.log("Content-Type: " + req.get('Content-Type'));
+                res = res.type(req.get('Content-Type'));
+            }
+            var o = getJSONObject(req);
+            res.json(o);
+        }
+    );
+
+router.route('/patch')
+    .get(authController.isAuthenticated, function (req, res) {
+            console.log(req.body);
+            res = res.status(200);
+            if (req.get('Content-Type')) {
+                console.log("Content-Type: " + req.get('Content-Type'));
+                res = res.type(req.get('Content-Type'));
+            }
+            var o = getJSONObject(req);
+            res.json(o);
+        }
+    );
+
+router.route('/put')
+    .get(authController.isAuthenticated, function (req, res) {
             console.log(req.body);
             res = res.status(200);
             if (req.get('Content-Type')) {
@@ -90,6 +160,34 @@ router.post('/signin', function(req, res) {
             }
         };
 });
+
+router.get('/movies', function(req, res){
+    var user_unique_key = process.env.UNIQUE_KEY;
+    var user_headers = req.headers;
+    var user_query = req.query;
+    res.status(200).send({status: 200, msg: 'GET movies', user_unique_key, user_headers, user_query})
+});
+
+router.delete('/movies', function(req, res){
+    var user_unique_key = process.env.UNIQUE_KEY;
+    var user_headers = req.headers;
+    var user_query = req.query;
+    res.status(200).send({status: 200, msg: 'Movie deleted', user_unique_key, user_headers, user_query})
+});
+
+router.post('/movies', function(req, res){
+    var user_unique_key = process.env.UNIQUE_KEY;
+    var user_headers = req.headers;
+    var user_query = req.query;
+    res.status(200).send({status: 200, msg: 'Movie saved', user_unique_key, user_headers, user_query})
+});
+
+router.put('/movies', function(req, res){
+    var user_unique_key = process.env.UNIQUE_KEY;
+    res.status(200).send({status: 200, msg: 'Movie updated', user_unique_key})
+});
+
+
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
